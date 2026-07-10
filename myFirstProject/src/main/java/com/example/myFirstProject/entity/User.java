@@ -1,7 +1,9 @@
 package com.example.myFirstProject.entity;
 
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.NonFinal;
 import org.bson.types.ObjectId;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @Document
 @Data
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -23,6 +26,8 @@ public class User {
     @Indexed(unique = true)
     @NonNull
     private String username;
+    private String email;
+    private boolean sentimentAnalysis;
     @NonNull
     private String password;
 

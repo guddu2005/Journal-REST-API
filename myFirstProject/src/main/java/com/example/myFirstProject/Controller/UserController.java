@@ -1,6 +1,7 @@
 package com.example.myFirstProject.Controller;
 
 import com.example.myFirstProject.Service.UserService;
+import com.example.myFirstProject.Service.WeatherService;
 import com.example.myFirstProject.entity.User;
 import com.example.myFirstProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    private WeatherService weatherService;
+
 
     @PutMapping()
     public ResponseEntity<?>updateUser(@RequestBody User user ){
@@ -38,6 +42,18 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         userRepository.deleteByUsername(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/weather")
+    public ResponseEntity<?> greeting() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String weather = weatherService.getWeather("Dehradun");
+
+        return new ResponseEntity<>(
+                "Hi " + authentication.getName() + ", Weather feels like " + weather,
+                HttpStatus.OK
+        );
     }
 
 }

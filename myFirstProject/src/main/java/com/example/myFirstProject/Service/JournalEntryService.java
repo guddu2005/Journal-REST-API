@@ -4,7 +4,9 @@ import ch.qos.logback.core.encoder.EchoEncoder;
 import com.example.myFirstProject.entity.JournalEntry;
 import com.example.myFirstProject.entity.User;
 import com.example.myFirstProject.repository.JournalEntryRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 
-
 @Component
+@Slf4j
 public class JournalEntryService {
 
 
@@ -23,6 +25,7 @@ public class JournalEntryService {
     private JournalEntryRepository journalEntryRepository;
     @Autowired
     private UserService userService;
+
 
 
     public void saveEntry(JournalEntry journalEntry, String userName) {
@@ -33,6 +36,7 @@ public class JournalEntryService {
             user.getJournalEntry().add(saved);
             userService.saveEntry(user);
         } catch (Exception e) {
+            log.info("Haahahha");
             throw new RuntimeException("An error occurred while saving the entry.", e);
         }
     }

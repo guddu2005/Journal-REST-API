@@ -1,6 +1,7 @@
 package com.example.myFirstProject.entity;
 
 
+import com.example.myFirstProject.enums.Sentiment;
 import lombok.Data;
 //import lombok.Getter;
 //import lombok.Setter;
@@ -23,6 +24,6 @@ public class JournalEntry {
     private String title;
     private String content;
     private LocalDateTime date;
-
+    private Sentiment sentiment;
 
 }
