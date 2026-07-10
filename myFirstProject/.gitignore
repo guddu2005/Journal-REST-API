@@ -12,8 +12,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
-.yml
-.log
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -32,3 +31,41 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+# Build
+target/
+
+# Maven Wrapper
+.mvn/timing.properties
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.*
+
+# Spring configuration
+application.properties
+application.yml
+application.yaml
+
+# Ignore all YAML files
+*.yml
+*.yaml
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp

@@ -19,21 +19,31 @@ public class WeatherService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private RedisService redisService;
+
     public String getWeather(String city) {
+        WeatherResponse cachedResponse =  redisService.get("weather_of_"+city, WeatherResponse.class);
+        if(cachedResponse != null){
+            if (cachedResponse != null && cachedResponse.getCurrent() != null) {
+                return cachedResponse.getCurrent().getTemperature() + "°C, "
+                        + cachedResponse.getCurrent().getWeatherDescriptions().get(0);
+            }
+        }else{
+            String url = API.replace("CITY", city)
+                    .replace("YOUR_KEY", apiKey);
 
-        String url = API.replace("CITY", city)
-                .replace("YOUR_KEY", apiKey);
+            ResponseEntity<WeatherResponse> response =
+                    restTemplate.exchange(url, HttpMethod.GET, null, WeatherResponse.class);
 
-        ResponseEntity<WeatherResponse> response =
-                restTemplate.exchange(url, HttpMethod.GET, null, WeatherResponse.class);
+            WeatherResponse body = response.getBody();
 
-        WeatherResponse body = response.getBody();
-
-        if (body != null && body.getCurrent() != null) {
-            return body.getCurrent().getTemperature() + "°C, "
-                    + body.getCurrent().getWeatherDescriptions().get(0);
+            if (body != null && body.getCurrent() != null) {
+                redisService.set("weather_of_"+city, body ,300l);
+                return body.getCurrent().getTemperature() + "°C, "
+                        + body.getCurrent().getWeatherDescriptions().get(0);
+            }
         }
-
         return "Weather not available";
     }
 
